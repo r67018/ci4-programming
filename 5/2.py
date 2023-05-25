@@ -1,6 +1,7 @@
 class Node:
-    def __init__(self, value):
+    def __init__(self, value, index):
         self.value = value
+        self.index = index
         self.left = None
         self.right = None
 
@@ -14,7 +15,7 @@ class BinarySearchTree:
         self.nodes = []
 
     def add_node(self, value):
-        node = Node(value)
+        node = Node(value, len(self.nodes))
         if self.nodes:
             parent, direction = self.find_parent(value)
             if direction == 'left':
@@ -37,27 +38,25 @@ class BinarySearchTree:
                 node = p.right
         return p, direction
 
-    def find(self, value):
+    def search(self, value):
         root = self.nodes[0]
-        return self.__find(root, value)
+        return self.__search(root, value)
 
-    def __find(self, node, value):
+    def __search(self, node, value):
         if node.value == value:
-            return node.value
+            return node.index
 
-        res_left = self.__find(node.left, value)
-        res_right = self.__find(node.right, value)
+        res_left = self.__search(node.left, value) if node.left else False
+        res_right = self.__search(node.right, value) if node.right else False
         if res_left:
             return res_left
         elif res_right:
             return res_right
         else:
             return False
-        
 
 btree = BinarySearchTree()
 for v in [10, 20, 12, 4, 3, 9, 30]:
     btree.add_node(v)
 
-for node in btree.nodes:
-    print(node)
+print(btree.search(30))
