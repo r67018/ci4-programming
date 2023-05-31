@@ -1,3 +1,7 @@
+import random
+import timeit
+
+
 class Node:
     def __init__(self, value, index):
         self.value = value
@@ -46,17 +50,27 @@ class BinarySearchTree:
         if node.value == value:
             return node.index
 
-        res_left = self.__search(node.left, value) if node.left else False
-        res_right = self.__search(node.right, value) if node.right else False
-        if res_left:
-            return res_left
-        elif res_right:
-            return res_right
+        if node.value > value:
+            return False if node.left is None else self.__search(node.left, value)
         else:
-            return False
+            return False if node.right is None else self.__search(node.right, value)
+
+def linear_search(array, target):
+    for i in range(len(array)):
+        if array[i] == target:
+            return i
+    return False
+
+size = int(input('size (<= 10000): '))
+numbers = random.sample(range(10000), size)
+print(numbers)
+target = int(input('target: '))
 
 btree = BinarySearchTree()
-for v in [10, 20, 12, 4, 3, 9, 30]:
+for v in numbers:
     btree.add_node(v)
 
-print(btree.search(30))
+t1 = timeit.timeit('linear_search(numbers, target)', globals=globals(), number=1000)
+t2 = timeit.timeit('btree.search(target)', globals=globals(), number=1000)
+print('linear_search: %.3fs' % (t1))
+print('btree.search : %.3fs' % (t2))
