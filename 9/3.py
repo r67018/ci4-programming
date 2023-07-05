@@ -31,14 +31,14 @@ def dp(items, size_limit):
         target = items[i-1]
         w = target.weight
         for j in range(1, size_limit+1):
-            yellow = table[i-1][j]
-            table[i][j] = yellow
+            exclude_this = table[i-1][j]
+            table[i][j] = exclude_this
             if w > j:
                 continue
-            pink = table[i-1][j-w]
-            include_this = target.price + pink
-            table[i][j] = max(yellow, include_this)
-            flag[i][j] = include_this > yellow
+            prev_value = table[i-1][j-w]
+            include_this = target.price + prev_value
+            table[i][j] = max(exclude_this, include_this)
+            flag[i][j] = include_this > exclude_this
     i = n
     j = size_limit
     my_knapsack = Knapsack(size_limit)
