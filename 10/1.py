@@ -23,29 +23,27 @@ class Knapsack:
 
 def bb(items, size_limit):
     knapsack = Knapsack(size_limit)
+    best_knapsack = knapsack
     cand = knapsack
     def _bb(knapsack, items):
+        nonlocal cand
         if len(items) == 0:
             if knapsack.value > cand.value:
                 cand = knapsack
             return
         else:
             # don't take
-            knap1 = _bb(knapsack, items[1:])
-            knap2 = knapsack
+            _bb(knapsack, items[1:])
             # take
             if knapsack.has_room_for(items[0]):
                 next_knapsack = Knapsack(knapsack.size)
                 for v in knapsack.items:
                     next_knapsack.append(v)
                 next_knapsack.append(items[0])
-                knap2 = _bb(next_knapsack, items[1:])
-            if knap1.value > knap2.value:
-                return knap1
-            else:
-                return knap2
+                _bb(next_knapsack, items[1:])
 
-    return _bb(knapsack, items)
+    _bb(knapsack, items)
+    return cand
 
 random.seed(7)
 
@@ -65,5 +63,5 @@ for i in range(num):
     item = Item(i, w, price_list.pop())
     item_list.append(item)
 
-knapsack = bt(item_list, 40)
+knapsack = bb(item_list, 40)
 print(knapsack)
