@@ -27,14 +27,17 @@ def attack(encrypted_ints, pub_key):
     return decrypted_text
 
 
+p = 1949
+q = 2111
 input_text = 'Hello, World!'
 pub_key, priv_key = generate_key(1949, 2111)
-print('Public key:', pub_key)
-print('Private key:', priv_key)
 encrypted_ints = encrypt(input_text, pub_key)
 decrypted_text = decrypt(encrypted_ints, priv_key)
 attacked_text = attack(encrypted_ints, pub_key)
 
+print(f'p = {p}')
+print(f'q = {q}')
+print('e = 3')
 print('Input text:', input_text)
 print('Encrypted ints:', encrypted_ints)
 print('Decrypted text:', decrypted_text)
