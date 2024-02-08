@@ -1,6 +1,3 @@
-from math import gcd, lcm, sqrt, floor
-
-
 def generate_key(p, q):
     n = p * q
     phi = (p - 1) * (q - 1)
